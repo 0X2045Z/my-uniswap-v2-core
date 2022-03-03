@@ -214,6 +214,12 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
                 //计算k值的平方根
                 uint256 rootKLast = Math.sqrt(_kLast);
                 //如果rootK>rootKLast
+                //这里也许会有人有疑问：我第一次流动性操作和第二次流动性操作的恒定乘积中K的值从代码中是无法看到变化
+                //，（_mintFee函数发生在更新reserve0和reserve1之前），它们的差额不是0吗？哪有什么手续费！
+                //是的，如果只是连续的两次流动性操作，k2是和k1是相等的。
+                //但是连续两次流动性操作之间是可以存在多次资产（代币）交易的。
+                //由于资产交易手续费的存在，虽然是恒定乘积算法，但是这个乘积值K实质上是在慢慢变大的，于是这两个K之间就会有差额了！！
+                //！！太他妈精妙了！！没有Swap就没有手续费，还收个鸡毛！？！
                 if (rootK > rootKLast) {
                     //分子 = erc20总量 * (rootK - rootKLast)
                     uint256 numerator = totalSupply.mul(rootK.sub(rootKLast));

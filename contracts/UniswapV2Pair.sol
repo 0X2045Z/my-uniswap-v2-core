@@ -26,6 +26,7 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     uint112 private reserve0; // 储备量0
     uint112 private reserve1; // 储备量1
     uint32 private blockTimestampLast; // 更新储备量的最后时间戳
+    // price0CumulativeLast和price1CumulativeLast在此处定义并存储，是在价格预言机中使用（my-uniswap-v2-core/contracts/examples/ExampleOracleSimple.sol）；
     //价格0最后累计
     uint256 public price0CumulativeLast;
     //价格1最后累计
